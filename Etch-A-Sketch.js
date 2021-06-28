@@ -1,6 +1,8 @@
 // Adam Cevallos
 // Etch-A-Sketch
 
+const rainbowColors = ['9400D3', '4B0082', '0000FF', '00FF00', 'FFFF00', 'FF7F00', 'FF0000'];
+
 function clearGrid() {
     let allSquares = document.querySelectorAll('.inner');
     allSquares.forEach(square => {
@@ -41,7 +43,7 @@ function applyColor(square, colorScheme) {
 
     switch (colorScheme) {
         case 'random':
-            square.setAttribute('data-grayscale', '1')
+            square.setAttribute('data-grayscale', '0')
             let randomR = Math.floor(Math.random() * 255);
             let randomG = Math.floor(Math.random() * 255);
             let randomB = Math.floor(Math.random() * 255);
@@ -49,12 +51,12 @@ function applyColor(square, colorScheme) {
             break;
 
         case 'black':
-            square.setAttribute('data-grayscale', '1')
+            square.setAttribute('data-grayscale', '0')
             square.style.cssText = `background-color: rgb(0,0,0)`;
             break;
 
         case 'rainbow':
-            square.setAttribute('data-grayscale', '1')
+            square.setAttribute('data-grayscale', '0')
             let randomRainbowIndex = Math.floor(Math.random() * 7);
             let color = rainbowColors[randomRainbowIndex];
             square.style.cssText = `background-color: #${color}`;
@@ -72,24 +74,29 @@ function applyColor(square, colorScheme) {
         case 'custom':
             square.style.cssText = `background-color: ${customColor}`;
             break;
-
+        
+        case 'eraser':
+            square.setAttribute('data-grayscale', 0);
+            square.style.cssText = `background-color: rgb(255,255,255)`;
+            break;
+            
         default:
             console.log("something went wrong.");
 
     }
 }
 
-let dimension = 10;
+const dimensionSlider = document.getElementById('dimensionSlider');
+let dimension = dimensionSlider.value;
 populateGrid(dimension);
 
-const dimensionSlider = document.getElementById('dimensionSlider');
 dimensionSlider.onchange = function () {
     dimension = this.value;
     populateGrid(dimension);
 }
 
-let colorScheme = 'grayscale';
-const rainbowColors = ['9400D3', '4B0082', '0000FF', '00FF00', 'FFFF00', 'FF7F00', 'FF0000'];
+let colorScheme = 'black';
+
 
 //clear button
 const clearButton = document.querySelector('#clear');
